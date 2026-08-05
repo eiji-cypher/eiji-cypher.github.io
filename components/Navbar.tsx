@@ -51,7 +51,7 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Nav */}
-          <div className="flex items-center gap-4 md:gap-8">
+          <div className="hidden md:flex items-center gap-4 md:gap-8">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -65,7 +65,7 @@ export default function Navbar() {
           </div>
 
           {/* Auth */}
-          <div className="flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-3">
             {session ? (
               <div className="relative">
                 <button

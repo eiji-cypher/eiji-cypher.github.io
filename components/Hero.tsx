@@ -1,12 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, ChevronDown, ChevronUp } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 export default function Hero() {
-  const [expanded, setExpanded] = useState(false);
   return (
     <section className="relative min-h-screen hero-gradient circuit-bg flex items-center overflow-hidden wave-divider">
       {/* Animated background orbs */}
@@ -49,57 +47,39 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Mobile Dropdown Trigger */}
-          <button
-            onClick={() => setExpanded(!expanded)}
-            className="md:hidden mt-6 flex items-center gap-2 px-6 py-3.5 bg-white/10 hover:bg-white/15 border border-white/20 rounded-xl text-white font-semibold transition-all duration-200 active:scale-95"
-          >
-            {expanded ? "Hide Details" : "Show Details & Actions"}
-            {expanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-          </button>
+          <p className="text-brand-silver/80 text-base md:text-lg leading-relaxed mb-8 max-w-xl font-montserrat font-light animate-fade-up animate-delay-200">
+            Your trusted partner in business compliance, registration, and operational excellence. 
+            Track your documents, monitor your filings, and stay ahead of every deadline — all in one place.
+          </p>
 
-          {/* Collapsible Container */}
-          <div
-            className={`w-full transition-all duration-500 ease-in-out overflow-hidden flex flex-col items-center ${
-              expanded
-                ? "max-h-[1000px] opacity-100 mt-8"
-                : "max-h-0 opacity-0 md:max-h-[1000px] md:opacity-100 md:mt-8"
-            }`}
-          >
-            <p className="text-brand-silver/80 text-base md:text-lg leading-relaxed mb-8 max-w-xl font-montserrat font-light">
-              Your trusted partner in business compliance, registration, and operational excellence. 
-              Track your documents, monitor your filings, and stay ahead of every deadline — all in one place.
-            </p>
+          <div className="flex flex-wrap justify-center gap-4 animate-fade-up animate-delay-300">
+            <Link
+              href="/register"
+              className="inline-flex items-center gap-2 bg-brand-royal hover:bg-blue-600 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-200 hover:scale-105 hover:shadow-lg hover:shadow-brand-royal/40 group"
+            >
+              Open an Account
+              <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+            </Link>
+            <Link
+              href="/#services"
+              className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/30 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-200"
+            >
+              Our Services
+            </Link>
+          </div>
 
-            <div className="flex flex-wrap justify-center gap-4">
-              <Link
-                href="/register"
-                className="inline-flex items-center gap-2 bg-brand-royal hover:bg-blue-600 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-200 hover:scale-105 hover:shadow-lg hover:shadow-brand-royal/40 group"
-              >
-                Open an Account
-                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-              </Link>
-              <Link
-                href="/#services"
-                className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/30 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-200"
-              >
-                Our Services
-              </Link>
-            </div>
-
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-3 sm:gap-6 mt-12 w-full max-w-md md:max-w-xl">
-              {[
-                { value: "500+", label: "Clients Served" },
-                { value: "100%", label: "Compliance Rate" },
-                { value: "5★", label: "Service Rating" },
-              ].map((stat) => (
-                <div key={stat.label} className="border-l border-white/20 pl-4 text-left">
-                  <p className="font-bebas text-white text-3xl">{stat.value}</p>
-                  <p className="text-brand-silver/70 text-xs font-medium mt-1">{stat.label}</p>
-                </div>
-              ))}
-            </div>
+          {/* Stats */}
+          <div className="grid grid-cols-3 gap-3 sm:gap-6 mt-12 animate-fade-up animate-delay-400">
+            {[
+              { value: "500+", label: "Clients Served" },
+              { value: "100%", label: "Compliance Rate" },
+              { value: "5★", label: "Service Rating" },
+            ].map((stat) => (
+              <div key={stat.label} className="border-l border-white/20 pl-4">
+                <p className="font-bebas text-white text-3xl">{stat.value}</p>
+                <p className="text-brand-silver/70 text-xs font-medium mt-1">{stat.label}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>
