@@ -1,0 +1,21 @@
+import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+
+export async function GET() {
+  const session = await getServerSession(authOptions);
+  const role = (session?.user as any)?.role;
+  if (!session || (role !== "ADMIN" && role !== "STAFF")) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  const clients = await prisma.user.findMany({
+    where: { role: "CLIENT" },
+    orderBy: { createdAt: "desc" },
+    select: {
+      id: true, name: true, email: true, phone: true, createdAt: true,
+      _count: { select: { documents: true } },
+    },
+  });
+  return NextResponse.json(clients);
+}

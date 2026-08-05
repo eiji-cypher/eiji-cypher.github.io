@@ -1,0 +1,155 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String       @id @default(cuid())
+  name          String?
+  email         String?      @unique
+  emailVerified DateTime?
+  image         String?
+  phone         String?
+  password      String?
+  role          UserRole     @default(CLIENT)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  accounts      Account[]
+  sessions      Session[]
+  documents     Document[]
+  services      ServiceRequest[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Document {
+  id          String         @id @default(cuid())
+  userId      String
+  title       String
+  description String?
+  type        DocumentType
+  status      DocumentStatus @default(PENDING)
+  notes       String?
+  requirements String[]
+  submittedAt DateTime?
+  readyAt     DateTime?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  requirementChecks RequirementCheck[]
+}
+
+model ServiceRequest {
+  id          String        @id @default(cuid())
+  userId      String
+  serviceType ServiceType
+  status      RequestStatus @default(SUBMITTED)
+  message     String?
+  adminNotes  String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+enum UserRole {
+  CLIENT
+  STAFF
+  ADMIN
+}
+
+enum DocumentType {
+  SEC_REGISTRATION
+  BIR_REGISTRATION
+  PATENT
+  TRADEMARK
+  COPYRIGHT
+  AUDIT_REPORT
+  COMPLIANCE_REPORT
+  OTHER
+}
+
+enum DocumentStatus {
+  PENDING
+  PROCESSING
+  AWAITING_REQUIREMENTS
+  READY_FOR_RETRIEVAL
+  RETRIEVED
+  CANCELLED
+}
+
+enum ServiceType {
+  ACCOUNTS_MONITORING
+  BUSINESS_REGISTRATION_SEC
+  BUSINESS_REGISTRATION_BIR
+  STATUTORY_COMPLIANCE
+  IPO_PATENT
+  IPO_TRADEMARK
+  IPO_COPYRIGHT
+  INTERNAL_AUDIT
+  OPERATIONAL_AUDIT
+}
+
+enum RequestStatus {
+  SUBMITTED
+  IN_REVIEW
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+model RequirementCheck {
+  id          String    @id @default(cuid())
+  documentId  String
+  requirement String
+  checked     Boolean   @default(false)
+  fileUrl     String?
+  checkedAt   DateTime?
+  document    Document  @relation(fields: [documentId], references: [id], onDelete: Cascade)
+}
