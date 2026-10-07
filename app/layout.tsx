@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Bebas_Neue, Montserrat } from "next/font/google";
 import "./globals.css";
-import { Providers } from "@/components/Providers";
 
 const bebasNeue = Bebas_Neue({
   weight: "400",
@@ -19,8 +18,8 @@ const montserrat = Montserrat({
 export const metadata: Metadata = {
   title: "Double V Business Support Services",
   description:
-    "Professional business support services including accounts monitoring, business registration, statutory compliance, IPO registration, and audit services.",
-  keywords: "business registration, SEC, BIR, accounting, compliance, audit, Philippines",
+    "Professional business support services including accounts monitoring, business registration, statutory compliance, IPO registration, and audit services in Dipolog City and nationwide.",
+  keywords: "business registration, SEC, BIR, accounting, compliance, audit, Dipolog City, Philippines",
   icons: { icon: "/favicon.ico" },
   openGraph: {
     title: "Double V Business Support Services",
@@ -35,10 +34,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${bebasNeue.variable} ${montserrat.variable}`}>
-      <body className="font-montserrat antialiased">
-        <Providers>{children}</Providers>
+    <html lang="en" className={`${bebasNeue.variable} ${montserrat.variable} scroll-smooth`}>
+      <body className="font-montserrat antialiased bg-white text-brand-navy">
+        {children}
       </body>
     </html>
   );
 }
+
