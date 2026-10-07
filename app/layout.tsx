@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   description:
     "Professional business support services including accounts monitoring, business registration, statutory compliance, IPO registration, and audit services in Dipolog City and nationwide.",
   keywords: "business registration, SEC, BIR, accounting, compliance, audit, Dipolog City, Philippines",
-  icons: { icon: "/favicon.ico" },
+  icons: { icon: "/dvbss.logo.png", shortcut: "/dvbss.logo.png", apple: "/dvbss.logo.png" },
   openGraph: {
     title: "Double V Business Support Services",
     description: "Your trusted partner in business compliance and registration.",
